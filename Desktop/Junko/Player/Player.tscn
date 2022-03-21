@@ -1,0 +1,236 @@
+[gd_scene load_steps=33 format=2]
+
+[ext_resource path="res://Player/junko.png" type="Texture" id=1]
+[ext_resource path="res://Player/animations/impactrunning.tres" type="Animation" id=2]
+[ext_resource path="res://Player/Player.gd" type="Script" id=3]
+[ext_resource path="res://Player/animations/falling.tres" type="Animation" id=4]
+[ext_resource path="res://Player/animations/idle.tres" type="Animation" id=5]
+[ext_resource path="res://Player/animations/jumping.tres" type="Animation" id=6]
+[ext_resource path="res://Player/animations/sliding.tres" type="Animation" id=7]
+[ext_resource path="res://Player/animations/running.tres" type="Animation" id=8]
+[ext_resource path="res://Player/animations/impact.tres" type="Animation" id=9]
+[ext_resource path="res://Player/animations/stopping.tres" type="Animation" id=10]
+[ext_resource path="res://RoomArea2D.gd" type="Script" id=11]
+
+[sub_resource type="AnimationNodeTimeScale" id=8]
+
+[sub_resource type="AnimationNodeTransition" id=14]
+input_count = 2
+input_0/name = "alive"
+input_0/auto_advance = false
+input_1/name = "dead"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeAnimation" id=18]
+animation = "damage"
+
+[sub_resource type="AnimationNodeTransition" id=15]
+input_count = 2
+input_0/name = "generic"
+input_0/auto_advance = false
+input_1/name = "laser"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "falling"
+
+[sub_resource type="AnimationNodeAnimation" id=16]
+animation = "death_generic"
+
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "idle"
+
+[sub_resource type="AnimationNodeTransition" id=9]
+input_count = 2
+input_0/name = "ground"
+input_0/auto_advance = false
+input_1/name = "air"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeTransition" id=10]
+input_count = 2
+input_0/name = "jumping"
+input_0/auto_advance = false
+input_1/name = "falling"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeTransition" id=6]
+input_count = 2
+input_0/name = "idle"
+input_0/auto_advance = false
+input_1/name = "running"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "jumping"
+
+[sub_resource type="AnimationNodeAnimation" id=17]
+animation = "death_burn"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "running"
+
+[sub_resource type="AnimationNodeTransition" id=20]
+input_count = 2
+input_0/name = "damaged"
+input_0/auto_advance = false
+input_1/name = "undamaged"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeBlendTree" id=5]
+graph_offset = Vector2( 436.111, 33.5833 )
+nodes/TimeScale/node = SubResource( 8 )
+nodes/TimeScale/position = Vector2( 940, 100 )
+nodes/alive/node = SubResource( 14 )
+nodes/alive/position = Vector2( 1740, 260 )
+nodes/damage/node = SubResource( 18 )
+nodes/damage/position = Vector2( 1360, 120 )
+nodes/death_type/node = SubResource( 15 )
+nodes/death_type/position = Vector2( 1520, 360 )
+nodes/falling/node = SubResource( 11 )
+nodes/falling/position = Vector2( 940, 360 )
+nodes/generic/node = SubResource( 16 )
+nodes/generic/position = Vector2( 1300, 400 )
+nodes/idle/node = SubResource( 4 )
+nodes/idle/position = Vector2( 940, -20 )
+nodes/in_air/node = SubResource( 9 )
+nodes/in_air/position = Vector2( 1300, 240 )
+nodes/is_falling/node = SubResource( 10 )
+nodes/is_falling/position = Vector2( 1120, 240 )
+nodes/is_running/node = SubResource( 6 )
+nodes/is_running/position = Vector2( 1120, 80 )
+nodes/jumping/node = SubResource( 12 )
+nodes/jumping/position = Vector2( 940, 240 )
+nodes/laser/node = SubResource( 17 )
+nodes/laser/position = Vector2( 1300, 540 )
+nodes/output/position = Vector2( 1900, 260 )
+nodes/running/node = SubResource( 7 )
+nodes/running/position = Vector2( 760, 100 )
+nodes/taking_damage/node = SubResource( 20 )
+nodes/taking_damage/position = Vector2( 1520, 200 )
+node_connections = [ "output", 0, "alive", "is_running", 0, "idle", "is_running", 1, "TimeScale", "alive", 0, "taking_damage", "alive", 1, "death_type", "is_falling", 0, "jumping", "is_falling", 1, "falling", "TimeScale", 0, "running", "in_air", 0, "is_running", "in_air", 1, "is_falling", "taking_damage", 0, "damage", "taking_damage", 1, "in_air", "death_type", 0, "generic", "death_type", 1, "laser" ]
+
+[sub_resource type="Animation" id=19]
+resource_name = "damage"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 36 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimationTree:parameters/taking_damage/current")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=21]
+resource_name = "death_burn"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 30, 31, 32, 33, 34, 35 ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "death_generic"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 24, 25, 26, 27, 28, 29 ]
+}
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 2.5, 7.5 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 0.001, 0.001 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 2.5, 2.75 )
+
+[node name="Player" type="KinematicBody2D"]
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 6
+vframes = 7
+frame = 3
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 5 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/TimeScale/scale = 1.0
+parameters/alive/current = 0
+parameters/death_type/current = 0
+parameters/in_air/current = 0
+parameters/is_falling/current = 0
+parameters/is_running/current = 0
+parameters/taking_damage/current = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/damage = SubResource( 19 )
+anims/death_burn = SubResource( 21 )
+anims/death_generic = SubResource( 13 )
+anims/falling = ExtResource( 4 )
+anims/idle = ExtResource( 5 )
+anims/impact = ExtResource( 9 )
+anims/impactrunning = ExtResource( 2 )
+anims/jumping = ExtResource( 6 )
+anims/running = ExtResource( 8 )
+anims/sliding = ExtResource( 7 )
+anims/stopping = ExtResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.5, 4.5 )
+shape = SubResource( 1 )
+
+[node name="RoomArea2D" type="Area2D" parent="."]
+script = ExtResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RoomArea2D"]
+shape = SubResource( 2 )
+
+[node name="DamageArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea2D"]
+position = Vector2( -0.5, 7 )
+shape = SubResource( 3 )
+
+[node name="DeathTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="DeathTimer" to="." method="deathtimer_timeout"]
